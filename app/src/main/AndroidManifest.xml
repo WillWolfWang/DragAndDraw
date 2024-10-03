@@ -25,7 +25,7 @@
             android:theme="@style/Theme.DragAndDraw">
 
         </activity>
-        <activity android:name=".CheatActivity"
+        <activity android:name=".chat.CheatActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DragAndDraw">

@@ -1,4 +1,4 @@
-package com.will.draganddraw
+package com.will.draganddraw.chat
 
 import android.os.Bundle
 import android.widget.Button
@@ -6,8 +6,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.will.draganddraw.chat.Msg
-import com.will.draganddraw.chat.MsgAdapter
+import com.will.draganddraw.R
 
 class CheatActivity : AppCompatActivity() {
     private val msgList = ArrayList<Msg>()
@@ -24,6 +23,8 @@ class CheatActivity : AppCompatActivity() {
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         adapter = MsgAdapter(msgList)
+
+//        ::adapter.isInitialized
         recyclerView.adapter = adapter
         findViewById<Button>(R.id.send).setOnClickListener {
             val content = etInput.text.toString()
