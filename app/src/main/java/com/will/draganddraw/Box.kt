@@ -6,6 +6,7 @@ import android.os.Parcelable
 
 class Box(val start: PointF): Parcelable {
     var end: PointF = start
+    var rotation: Float = 0f
 
     val left: Float
         get() = Math.min(start.x, end.x)
@@ -18,6 +19,12 @@ class Box(val start: PointF): Parcelable {
 
     val bottom: Float
         get() = Math.max(start.y, end.y)
+
+    val centerX: Float
+        get() = (start.x + end.x) / 2
+
+    val centerY: Float
+        get() = (start.y + end.y) / 2
 
     // Parcelable implementation
 //    constructor(parcel: Parcel) : this(

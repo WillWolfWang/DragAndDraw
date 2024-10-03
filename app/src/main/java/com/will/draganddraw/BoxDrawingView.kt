@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
 import android.view.View
+import kotlin.math.atan2
 
 class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(context, attrs) {
 
@@ -23,6 +24,14 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
     private val backgroundPoint = Paint().apply {
         color = 0xfff8efe0.toInt()
     }
+
+    private var mode = Mode.DRAW
+    private var oldAngle = 0f
+
+    enum class Mode {
+        DRAW, ROTATE
+    }
+
     // 需要给 view 设置 id 否则，这两个方法不会回调执行
     override fun onSaveInstanceState(): Parcelable? {
         val bundle = Bundle()
@@ -48,24 +57,48 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
         // 画背景
         canvas.drawPaint(backgroundPoint)
         boxen.forEach{box->
+            canvas.save()
+            canvas.rotate(box.rotation, box.centerX, box.centerY)
             canvas.drawRect(box.left, box.top, box.right, box.bottom, boxPaint)
+            canvas.restore()
         }
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         val current = PointF(event.x, event.y)
         var action = ""
-        when(event.action) {
+        when(event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                mode = Mode.DRAW
                 action = "ACTION_DOWN"
                 currentBox = Box(current).also {
                     boxen.add(it)
                 }
             }
+            MotionEvent.ACTION_POINTER_DOWN -> {
+                if (event.pointerCount == 2) {
+                    mode = Mode.ROTATE
+                    oldAngle = rotation(event)
+                }
+                Log.e("WillWolf", "point down")
+            }
             MotionEvent.ACTION_MOVE -> {
                 action = "ACTION_MOVE"
-                updateCurrentBox(current)
+                if (mode == Mode.DRAW) {
+                    updateCurrentBox(current)
+                } else if (mode == Mode.ROTATE) {
+                    val newAngle = rotation(event)
+                    val deltaAngle = newAngle - oldAngle
+                    currentBox?.rotation = (currentBox?.rotation ?: 0f) + deltaAngle
+                    oldAngle = newAngle
+                    Log.e("WillWolf", "rotation-->" + rotation)
+                }
+                Log.e("WillWolf", "mode-->" + mode)
             }
+            MotionEvent.ACTION_POINTER_UP -> {
+                mode = Mode.DRAW
+            }
+
             MotionEvent.ACTION_UP -> {
                 action = "ACTION_UP"
                 updateCurrentBox(current)
@@ -76,7 +109,8 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
                 currentBox = null
             }
         }
-        Log.e("WillWolf", "$action at x=${current.x}, y=${current.y}")
+//        Log.e("WillWolf", "$action at x=${current.x}, y=${current.y}")
+        invalidate()
         return true
     }
 
@@ -84,7 +118,14 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
         currentBox?.let {
             it.end = current
             // 这会强制 BoxDrawingView 重新绘制自己
-            invalidate()
+//            invalidate()
         }
+    }
+
+    private fun rotation(event: MotionEvent): Float {
+        val deltaX = event.getX(0) - event.getX(1)
+        val deltaY = event.getY(0) - event.getY(1)
+        val radians = atan2(deltaY.toDouble(), deltaX.toDouble())
+        return Math.toDegrees(radians).toFloat()
     }
 }
