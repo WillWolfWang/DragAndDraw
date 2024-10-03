@@ -58,8 +58,10 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
         canvas.drawPaint(backgroundPoint)
         boxen.forEach{box->
             canvas.save()
+            // 旋转 画布
             canvas.rotate(box.rotation, box.centerX, box.centerY)
             canvas.drawRect(box.left, box.top, box.right, box.bottom, boxPaint)
+            // 操作完成后，再恢复画布
             canvas.restore()
         }
     }
@@ -78,6 +80,7 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
             MotionEvent.ACTION_POINTER_DOWN -> {
                 if (event.pointerCount == 2) {
                     mode = Mode.ROTATE
+                    // 计算当前的初始角度
                     oldAngle = rotation(event)
                 }
                 Log.e("WillWolf", "point down")
@@ -88,8 +91,11 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
                     updateCurrentBox(current)
                 } else if (mode == Mode.ROTATE) {
                     val newAngle = rotation(event)
+                    // 计算旋转了多少度
                     val deltaAngle = newAngle - oldAngle
+                    // 保存到变量中
                     currentBox?.rotation = (currentBox?.rotation ?: 0f) + deltaAngle
+                    // 更新初始角度
                     oldAngle = newAngle
                     Log.e("WillWolf", "rotation-->" + rotation)
                 }
@@ -122,10 +128,15 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
         }
     }
 
+    // 比如 deltaX = 1，deltaY = 1
+    // radians =  0.7853981633974483
+    // degree = 45
     private fun rotation(event: MotionEvent): Float {
         val deltaX = event.getX(0) - event.getX(1)
         val deltaY = event.getY(0) - event.getY(1)
+        // 计算反正切角度，得到的是弧度
         val radians = atan2(deltaY.toDouble(), deltaX.toDouble())
+        // 用弧度转成角度
         return Math.toDegrees(radians).toFloat()
     }
 }
