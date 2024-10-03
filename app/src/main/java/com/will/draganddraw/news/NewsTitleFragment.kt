@@ -72,9 +72,15 @@ class NewsTitleFragment: Fragment() {
 
     private fun getRandomLengthString(str: String): String {
         val n = (1..20).random()
+
+        return str * n
+    }
+
+    // 扩展函数和运算符重载
+    operator fun String.times(n: Int) : String {
         val builder = StringBuilder()
         repeat(n) {
-            builder.append(str)
+            builder.append(this)
         }
         return builder.toString()
     }
