@@ -4,6 +4,8 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.PointF
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.util.Log
 import android.view.MotionEvent
@@ -20,6 +22,25 @@ class BoxDrawingView(context: Context, attrs: AttributeSet? = null): View(contex
 
     private val backgroundPoint = Paint().apply {
         color = 0xfff8efe0.toInt()
+    }
+    // 需要给 view 设置 id 否则，这两个方法不会回调执行
+    override fun onSaveInstanceState(): Parcelable? {
+        val bundle = Bundle()
+        bundle.putParcelable("super", super.onSaveInstanceState())
+        bundle.putParcelableArrayList("boxen", ArrayList(boxen));
+        return bundle
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val bundle = (state as Bundle)
+        super.onRestoreInstanceState(bundle.getParcelable("super"))
+        val restoredBoxen = state.getParcelableArrayList<Box>("boxen")
+        if (restoredBoxen != null) {
+            boxen.clear()
+            boxen.addAll(restoredBoxen)
+            invalidate()
+        }
+
     }
 
     override fun onDraw(canvas: Canvas) {
