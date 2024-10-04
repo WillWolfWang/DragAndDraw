@@ -34,6 +34,10 @@ class FileSaveActivity: AppCompatActivity() {
         })
 
 
+//        getSharedPreferences()
+        // 该方法会自动将当前 Activity 的类名作为 sp 的文件名
+//        getPreferences()
+//        getSharedPreferences("data", Context.MODE_PRIVATE).edit().putInt("test", 100).apply()
     }
 
     override fun onStop() {
