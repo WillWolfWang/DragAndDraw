@@ -58,6 +58,15 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DragAndDraw">
+
+        </activity>
+
+        <activity android:name=".offline.ShowActivity"/>
+
+        <activity android:name=".offline.LoginActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.DragAndDraw">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
