@@ -23,7 +23,8 @@ class ReceiverActivity: AppCompatActivity() {
             intent.action = "com.will.action"
             // 如果是静态广播接收，发送隐式广播必须带包名
             intent.`package` = packageName
-            sendBroadcast(intent)
+//            sendBroadcast(intent)
+            sendOrderedBroadcast(intent, null)
         }
     }
 
