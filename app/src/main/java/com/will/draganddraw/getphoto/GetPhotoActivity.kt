@@ -26,6 +26,13 @@ class GetPhotoActivity: AppCompatActivity() {
         }
     }
 
+    private val pickPhotoLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {uri->
+        uri?.let {
+            viewBinding.ivShow.setImageURI(uri)
+        }
+
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityGetPhotoBinding.inflate(layoutInflater)
@@ -47,6 +54,11 @@ class GetPhotoActivity: AppCompatActivity() {
 
             // 启动相机程序
             takePhotoLauncher.launch(imageUri)
+        }
+
+        viewBinding.btnAlbum.setOnClickListener {
+            // 启动相册
+            pickPhotoLauncher.launch("image/*")
         }
     }
 
