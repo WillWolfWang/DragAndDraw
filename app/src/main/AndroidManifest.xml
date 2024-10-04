@@ -67,6 +67,13 @@
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.DragAndDraw">
+
+        </activity>
+
+        <activity android:name=".filesave.FileSaveActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.DragAndDraw">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
