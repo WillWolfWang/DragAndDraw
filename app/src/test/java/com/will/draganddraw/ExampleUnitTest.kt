@@ -18,6 +18,22 @@ class ExampleUnitTest {
         num1AndNum2(1, 2) { n1, n2 ->
             n1 + n2
         }
+
+        val str: String =  StringBuilder().build {
+            append("1")
+            append("2")
+            toString()
+        }
+
+        val string: String = StringBuilder().let {
+            it.append("1")
+            it.toString()
+        }
+    }
+
+    fun StringBuilder.build(block: StringBuilder.() -> String): String {
+
+        return block()
     }
 
     fun num1AndNum2(num1: Int, num2: Int, operation:(Int, Int) -> Int): Int{
