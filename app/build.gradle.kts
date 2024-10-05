@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.circleimageview)
     implementation(libs.glide)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

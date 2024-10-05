@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.will.draganddraw.R
 import com.will.draganddraw.databinding.ActivityToolBarBinding
+import kotlin.concurrent.thread
 
 class ToolBarActivity: AppCompatActivity() {
     private lateinit var viewBinding: ActivityToolBarBinding
+    private lateinit var fruitAdapter: FruitAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityToolBarBinding.inflate(layoutInflater)
@@ -42,11 +44,17 @@ class ToolBarActivity: AppCompatActivity() {
         }
 
         initData()
+        fruitAdapter = FruitAdapter(this@ToolBarActivity, fruitList)
         viewBinding.recyclerView.apply {
             // 这个是瀑布流的适配器
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            adapter = FruitAdapter(this@ToolBarActivity, fruitList)
+            adapter = fruitAdapter
 
+        }
+        // 设置下拉刷新进度条的颜色
+        viewBinding.swipeRefresh.setColorSchemeResources(R.color.colorPrimary)
+        viewBinding.swipeRefresh.setOnRefreshListener {
+            refreshFruits(fruitAdapter)
         }
     }
 
@@ -67,23 +75,34 @@ class ToolBarActivity: AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    val fruits = mutableListOf(
+        Fruit("Apple", R.drawable.apple),
+        Fruit("Banana", R.drawable.banana),
+        Fruit("Orange", R.drawable.orange),
+        Fruit("Pear", R.drawable.pear),
+        Fruit("Grape", R.drawable.grape),
+        Fruit("Pineapple", R.drawable.pear),
+        Fruit("Strawberry", R.drawable.strawberry),
+        Fruit("Cherry", R.drawable.cherry),
+        Fruit("Mango", R.drawable.mango),
+    )
     val fruitList = ArrayList<Fruit>()
     private fun initData() {
-        val fruits = mutableListOf(
-            Fruit("Apple", R.drawable.apple),
-            Fruit("Banana", R.drawable.banana),
-            Fruit("Orange", R.drawable.orange),
-            Fruit("Pear", R.drawable.pear),
-            Fruit("Grape", R.drawable.grape),
-            Fruit("Pineapple", R.drawable.pear),
-            Fruit("Strawberry", R.drawable.strawberry),
-            Fruit("Cherry", R.drawable.cherry),
-            Fruit("Mango", R.drawable.mango),
-            )
-
+        fruitList.clear()
         repeat(50) {
             val index = (0 until fruits.size).random()
             fruitList.add(fruits[index])
+        }
+    }
+
+    private fun refreshFruits(adapter: FruitAdapter) {
+        thread {
+            Thread.sleep(2000)
+            runOnUiThread{
+                initData()
+                adapter.notifyDataSetChanged()
+                viewBinding.swipeRefresh.isRefreshing = false
+            }
         }
     }
 }
