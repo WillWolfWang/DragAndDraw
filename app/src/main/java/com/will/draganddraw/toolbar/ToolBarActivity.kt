@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import com.google.android.material.snackbar.Snackbar
 import com.will.draganddraw.R
 import com.will.draganddraw.databinding.ActivityToolBarBinding
 
@@ -28,6 +29,14 @@ class ToolBarActivity: AppCompatActivity() {
             Toast.makeText(this, menuItem.title, Toast.LENGTH_SHORT).show()
             viewBinding.drawerLayout.closeDrawers()
             true
+        }
+
+        viewBinding.fab.setOnClickListener{
+            Snackbar.make(it, "Data deleted", Snackbar.LENGTH_SHORT)
+                .setAction("Undo") {
+                    Toast.makeText(this, "Data restored", Toast.LENGTH_SHORT).show()
+                }
+                .show()
         }
     }
 
