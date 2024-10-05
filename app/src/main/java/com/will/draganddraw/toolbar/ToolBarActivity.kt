@@ -6,6 +6,8 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.will.draganddraw.R
 import com.will.draganddraw.databinding.ActivityToolBarBinding
@@ -38,6 +40,14 @@ class ToolBarActivity: AppCompatActivity() {
                 }
                 .show()
         }
+
+        initData()
+        viewBinding.recyclerView.apply {
+            // 这个是瀑布流的适配器
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            adapter = FruitAdapter(this@ToolBarActivity, fruitList)
+
+        }
     }
 
     // Toolbar 中的 action 按钮只会显示图标，菜单中的 action 按钮只会显示文字
@@ -55,5 +65,25 @@ class ToolBarActivity: AppCompatActivity() {
             R.id.settings -> Toast.makeText(this, "setting", Toast.LENGTH_SHORT).show()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    val fruitList = ArrayList<Fruit>()
+    private fun initData() {
+        val fruits = mutableListOf(
+            Fruit("Apple", R.drawable.apple),
+            Fruit("Banana", R.drawable.banana),
+            Fruit("Orange", R.drawable.orange),
+            Fruit("Pear", R.drawable.pear),
+            Fruit("Grape", R.drawable.grape),
+            Fruit("Pineapple", R.drawable.pear),
+            Fruit("Strawberry", R.drawable.strawberry),
+            Fruit("Cherry", R.drawable.cherry),
+            Fruit("Mango", R.drawable.mango),
+            )
+
+        repeat(50) {
+            val index = (0 until fruits.size).random()
+            fruitList.add(fruits[index])
+        }
     }
 }
