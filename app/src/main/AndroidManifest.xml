@@ -129,7 +129,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".toolbar.FruitDetailActivity"/>
+        <activity android:name=".toolbar.FruitDetailActivity"
+            android:theme="@style/FruitActivityTheme"/>
     </application>
 
 </manifest>
