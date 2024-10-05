@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.will.draganddraw.databinding.ActivityMyTestBinding
 import com.will.draganddraw.lifecycle.MyObserver
@@ -31,11 +32,16 @@ class MyTestActivity: AppCompatActivity() {
         viewModel = ViewModelProvider(this, MyTestViewModelFactory(countReserved)).get(MyTestViewModel::class.java)
 
         viewbinding.plusOneBtn.setOnClickListener {
-            viewModel.counter++
-            refreshCounter()
+            viewModel.plusOne()
+            // 使用 liveData 后，就不需要主动获取数据了，而是被动观察接收
+//            refreshCounter()
         }
 
-        refreshCounter()
+//        refreshCounter()
+
+        viewModel.counter.observe(this, Observer {count->
+            viewbinding.infoText.text = count.toString()
+        })
 
         lifecycle.addObserver(MyObserver())
     }
@@ -43,7 +49,7 @@ class MyTestActivity: AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         sp.edit {
-            putInt("count_reserved", viewModel.counter)
+            putInt("count_reserved", viewModel.counter.value ?: 0)
         }
     }
 
