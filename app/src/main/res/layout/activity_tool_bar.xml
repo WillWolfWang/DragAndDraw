@@ -10,28 +10,41 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="wrap_content">
 
-        <!--因为程序中默认设置的 style 是浅色主题，所以 toolbar 也会跟着用浅色主题，然后 toolbar 上的文字就会
-        是黑色，所以使用  android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" 该配置
-        设置 toolbar 用深色主题，然后文字就会改为白色
-        如果指定了深色主题后，popup 菜单也会是深色主题，不好看，所以使用   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        该配置，把 pop 菜单换成浅色主题
-        -->
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways|snap"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!--因为程序中默认设置的 style 是浅色主题，所以 toolbar 也会跟着用浅色主题，然后 toolbar 上的文字就会
+            是黑色，所以使用  android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" 该配置
+            设置 toolbar 用深色主题，然后文字就会改为白色
+            如果指定了深色主题后，popup 菜单也会是深色主题，不好看，所以使用   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            该配置，把 pop 菜单换成浅色主题
+
+             app:layout_scrollFlags="scroll|enterAlways|snap"
+             scroll 表示当 recyclerView 向上滚动的时候一起向上滚动并隐藏
+             enterAlways 表示 recyclerView 向下滚动的时候一起向下滚动并显示
+             snap 表示 toolbar 没有完全隐藏或显示的时候，会根据当前的滚动距离，自动选择是隐藏还是显示
+            -->
+
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fab"
