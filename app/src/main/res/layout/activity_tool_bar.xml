@@ -28,13 +28,13 @@
         -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
         android:layout_gravity="start"
-        android:text="this is menu"
-        android:textSize="30sp"/>
+        app:menu="@menu/nav_menu"
+        app:headerLayout="@layout/nav_header"/>
 
     <!--
      DrawerLayout 第一个子控件是主屏幕中显示的内容，第二个子控件是滑动菜单中显示的内容

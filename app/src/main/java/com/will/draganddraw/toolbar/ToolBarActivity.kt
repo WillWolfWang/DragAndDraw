@@ -24,6 +24,11 @@ class ToolBarActivity: AppCompatActivity() {
             // 修改图片为菜单形状
             it.setHomeAsUpIndicator(R.drawable.ic_menu)
         }
+        viewBinding.navigationView.setNavigationItemSelectedListener {menuItem->
+            Toast.makeText(this, menuItem.title, Toast.LENGTH_SHORT).show()
+            viewBinding.drawerLayout.closeDrawers()
+            true
+        }
     }
 
     // Toolbar 中的 action 按钮只会显示图标，菜单中的 action 按钮只会显示文字
