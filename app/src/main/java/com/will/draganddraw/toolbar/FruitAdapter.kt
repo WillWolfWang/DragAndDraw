@@ -24,12 +24,26 @@ class FruitAdapter(val context: Context, val fruitList: List<Fruit>): RecyclerVi
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val fruit = fruitList.get(position)
         val h = holder as FruitViewHolder
-        h.fruitName.text = fruit.name
-        Glide.with(h.fruitImage).load(fruit.imageId).into(h.fruitImage)
+        h.bindHolder(fruit)
     }
 
-    inner class FruitViewHolder(view: View): RecyclerView.ViewHolder(view) {
+    inner class FruitViewHolder(view: View): RecyclerView.ViewHolder(view), View.OnClickListener {
         val fruitImage: ImageView = view.findViewById(R.id.fruitImage)
         val fruitName: TextView = view.findViewById(R.id.fruitName)
+
+        init {
+            view.setOnClickListener(this)
+        }
+
+        fun bindHolder(fruit: Fruit) {
+            fruitName.text = fruit.name
+            Glide.with(fruitImage).load(fruit.imageId).into(fruitImage)
+        }
+
+        override fun onClick(v: View?) {
+            val position = bindingAdapterPosition
+            val fruit = fruitList.get(position)
+            FruitDetailActivity.startFruitDetailActivity(context, fruit.name, fruit.imageId)
+        }
     }
 }
