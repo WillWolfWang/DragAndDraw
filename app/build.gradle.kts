@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.swiperefreshlayout)
     implementation(libs.androidx.lifecycle.extensions)
     implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.work.runtime)
     kapt(libs.androidx.room.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
