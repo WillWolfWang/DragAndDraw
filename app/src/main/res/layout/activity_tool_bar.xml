@@ -1,25 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_height="match_parent">
 
-    <!--因为程序中默认设置的 style 是浅色主题，所以 toolbar 也会跟着用浅色主题，然后 toolbar 上的文字就会
-    是黑色，所以使用  android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" 该配置
-    设置 toolbar 用深色主题，然后文字就会改为白色
-    如果指定了深色主题后，popup 菜单也会是深色主题，不好看，所以使用   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    该配置，把 pop 菜单换成浅色主题
-    -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <!--因为程序中默认设置的 style 是浅色主题，所以 toolbar 也会跟着用浅色主题，然后 toolbar 上的文字就会
+        是黑色，所以使用  android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" 该配置
+        设置 toolbar 用深色主题，然后文字就会改为白色
+        如果指定了深色主题后，popup 菜单也会是深色主题，不好看，所以使用   app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        该配置，把 pop 菜单换成浅色主题
+        -->
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:layout_gravity="start"
+        android:text="this is menu"
+        android:textSize="30sp"/>
+
+    <!--
+     DrawerLayout 第一个子控件是主屏幕中显示的内容，第二个子控件是滑动菜单中显示的内容
+      android:layout_gravity="end"
+      这个配置可以指定 菜单 从哪边滑出来，如果不指定，就不会有滑动菜单了，它会覆盖掉主屏幕内容
+     -->
+
+</androidx.drawerlayout.widget.DrawerLayout>
