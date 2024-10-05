@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.lifecycle.ViewModelProvider
 import com.will.draganddraw.databinding.ActivityMyTestBinding
+import com.will.draganddraw.lifecycle.MyObserver
 
 class MyTestActivity: AppCompatActivity() {
     private lateinit var viewModel: MyTestViewModel
@@ -35,6 +36,8 @@ class MyTestActivity: AppCompatActivity() {
         }
 
         refreshCounter()
+
+        lifecycle.addObserver(MyObserver())
     }
 
     override fun onPause() {
