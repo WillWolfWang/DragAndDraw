@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
+import androidx.lifecycle.switchMap
 import kotlin.concurrent.thread
 
 /**
@@ -59,6 +60,34 @@ class MyTestViewModel(countReserved: Int): ViewModel() {
             _counter.postValue( count + 1)
 //            counter.value =
         }
-
     }
+
+
+//    fun getUser(userId: String): LiveData<User> {
+//        return Respository.getUser(userId)
+//    }
+    /**
+     * 如果在 activity 中直接使用 getUser（） 这个 LiveData 去观察，那么会出现问题
+     * 因为 Respository 每次都是 new 一个新的 LiveData，
+     * 此时需要使用 switchMap 方法
+     *
+     * 它的使用场景很固定，如果 ViewModel 中某个 LiveData 对象是调用另外
+     * 的方法获取的，那么我们就可以借助 switchMap 方法，将这个 LiveData 对象
+     * 转换成另外一个可观察的 LiveData
+     */
+    private val userIdLiveData = MutableLiveData<String>()
+
+    val user: LiveData<User> = userIdLiveData.switchMap {userId ->
+        Respository.getUser(userId)
+    }
+    fun getUser(userId: String) {
+        userIdLiveData.value = userId
+    }
+    /**
+     * 工作流程：外部调用 getUser(userId: String) 来获取用户数据时，并不会发起任何请求，
+     * 只是将传入的 userId 值设置到 userIdLiveData 中，一旦 userIdLiveData 数据发生变化，
+     * 那么 switchMap 就会执行，获取到用户数据后，将 返回的 LiveData 转换成一个可观察的
+     * liveData，然后 Activity 就可以观察这个 LiveData 了
+     */
+
 }

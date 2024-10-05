@@ -44,6 +44,15 @@ class MyTestActivity: AppCompatActivity() {
         })
 
         lifecycle.addObserver(MyObserver())
+
+        viewbinding.btnGetUser.setOnClickListener {
+            val userId = (0..10000).random().toString()
+            viewModel.getUser(userId)
+        }
+
+        viewModel.user.observe(this, Observer {user->
+            viewbinding.infoText.text = user.firstName
+        })
     }
 
     override fun onPause() {
